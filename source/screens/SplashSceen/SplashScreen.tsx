@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Animated, Image, View } from 'react-native';
+import { Animated, Image, Platform, View } from 'react-native';
 import RNSplashScreen from 'react-native-splash-screen';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,15 +13,20 @@ import { SplashScreenProps } from './types';
 const SplashScreen = ({ navigation }: SplashScreenProps) => {
   updateStatusBarTheme('dark');
   const { bottom } = useSafeAreaInsets();
+  const isAndroid = Platform.OS === 'android';
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
   const onAnimationEnd = useCallback(() => {
     setTimeout(() => {
-      navigation.navigate('Home');
+      if (isAndroid) {
+        navigation.navigate('Home');
+        return;
+      }
+      navigation.navigate('SupportNotAvailable');
     }, 800);
-  }, [navigation]);
+  }, [isAndroid, navigation]);
 
   useEffect(() => {
     setTimeout(() => {

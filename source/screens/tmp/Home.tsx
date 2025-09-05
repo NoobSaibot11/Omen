@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import styles from '../styles';
+import styles from './styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import updateStatusBarTheme from '../../hooks/updateStatusBarTheme';
 import { HomeProps } from './types';
