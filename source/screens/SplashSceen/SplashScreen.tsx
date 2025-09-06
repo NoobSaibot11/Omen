@@ -13,20 +13,20 @@ import { SplashScreenProps } from './types';
 const SplashScreen = ({ navigation }: SplashScreenProps) => {
   updateStatusBarTheme('dark');
   const { bottom } = useSafeAreaInsets();
-  const isAndroid = Platform.OS === 'android';
+  const isIOS = Platform.OS === 'ios';
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
   const onAnimationEnd = useCallback(() => {
     setTimeout(() => {
-      if (isAndroid) {
-        navigation.navigate('Home');
+      if (isIOS) {
+        navigation.navigate('SupportNotAvailable');
         return;
       }
-      navigation.navigate('SupportNotAvailable');
+      navigation.navigate('Home');
     }, 800);
-  }, [isAndroid, navigation]);
+  }, [isIOS, navigation]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -55,7 +55,7 @@ const SplashScreen = ({ navigation }: SplashScreenProps) => {
   }, [fadeAnim, scaleAnim, onAnimationEnd]);
 
   return (
-    <View style={[styles.ParentWrapper, { marginBottom: bottom }]}>
+    <View style={[styles.ParentWrapper, { paddingBottom: bottom }]}>
       <Image
         source={SplashLogo}
         style={[styles.SplashLogoImage, { top: bottom }]}
