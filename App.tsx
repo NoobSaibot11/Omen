@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import AppStack from './source/navigation/AppNavigator/AppStack';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import StatusBar from './source/components/StatusBar';
+import { StatusBar } from './source/components';
 
 function App() {
   return (
