@@ -1,12 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from '../../screens/tmp/Home';
-import { SplashScreen } from '../../screens/SplashSceen';
-import { AppStackParams } from './types';
-import { SupportNotAvailable } from '../../screens/SupportNotAvailable';
 
-const Stack = createNativeStackNavigator<AppStackParams>();
+import {
+  LandingScreen,
+  SplashScreen,
+  SupportNotAvailable,
+} from '../../screens';
+import { AuthStackParamList } from './types';
 
-const AppStack = () => {
+const Stack = createNativeStackNavigator<AuthStackParamList>();
+
+const AuthStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="SplashScreen"
@@ -20,9 +23,9 @@ const AppStack = () => {
         name="SupportNotAvailable"
         component={SupportNotAvailable}
       />
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="LandingScreen" component={LandingScreen} />
     </Stack.Navigator>
   );
 };
 
-export default AppStack;
+export default AuthStack;

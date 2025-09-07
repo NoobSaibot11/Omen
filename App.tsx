@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import AppStack from './source/navigation/AppNavigator/AppStack';
+import AppStack from './source/navigation/RootNavigator/RootNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from './source/components';
