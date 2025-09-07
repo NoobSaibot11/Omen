@@ -6,13 +6,13 @@ import { BaseScreen } from '../../components';
 
 const Home = ({ navigation }: HomeProps) => {
   return (
-    <BaseScreen theme="light">
+    <BaseScreen theme="dark">
       <View style={styles.HomeWrapper}>
         <Text style={styles.HomeText}>Home</Text>
         <TouchableOpacity
           onPress={() => {
             console.log('Hello');
-            navigation.navigate('SplashScreen');
+            navigation.navigate('AuthStack', { screen: 'SplashScreen' });
           }}
         >
           <Text>Done</Text>

@@ -3,31 +3,25 @@ import { Image, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import updateStatusBarTheme from '../../hooks/updateStatusBarTheme';
 import WarningIcon from '../../assets/warning_icon.png';
+import styles from './styles';
 
 const SupportNotAvailable = () => {
   const { bottom, top } = useSafeAreaInsets();
-  updateStatusBarTheme('dark');
+  updateStatusBarTheme('dark', '#ff8d28');
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
+    <View style={styles.ParentWrapper}>
       <View
-        style={{
-          marginTop: top,
-          marginBottom: bottom,
-          backgroundColor: '#ff8d28',
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: 16,
-        }}
+        style={[
+          styles.ChildWrapper,
+          {
+            marginTop: top,
+            marginBottom: bottom,
+          },
+        ]}
       >
-        <Image
-          source={WarningIcon}
-          style={{ height: 100, width: 100, marginBottom: 60 }}
-        />
-        <Text style={{ color: 'white', fontSize: 32, textAlign: 'center' }}>
-          This app is not available on IOS
-        </Text>
+        <Image source={WarningIcon} style={styles.ImageWrapper} />
+        <Text style={styles.TextWrapper}>This app is not available on IOS</Text>
       </View>
     </View>
   );

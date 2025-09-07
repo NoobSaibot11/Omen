@@ -5,16 +5,23 @@ import { BaseScreenProps } from './types';
 import styles from './styles';
 import updateStatusBarTheme from '../../hooks/updateStatusBarTheme';
 
-const BaseScreen = ({ children, theme }: BaseScreenProps) => {
+const BaseScreen = ({ children, theme, backgroundColor }: BaseScreenProps) => {
   const { bottom, top } = useSafeAreaInsets();
-  updateStatusBarTheme(theme);
+  updateStatusBarTheme(
+    theme,
+    backgroundColor || (theme === 'light' ? '#FFFFFF' : '#000000'),
+  );
 
   return (
     <View style={styles.ParentWrapper}>
       <View
         style={[
           styles.ChildWrapper,
-          theme === 'light' ? styles.LightTheme : styles.DarkTheme,
+          backgroundColor
+            ? { backgroundColor }
+            : theme !== 'light'
+            ? styles.LightTheme
+            : styles.DarkTheme,
           {
             paddingTop: top,
           },
