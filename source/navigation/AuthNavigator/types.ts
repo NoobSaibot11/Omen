@@ -5,12 +5,14 @@ import {
   RootStackScreenProps,
 } from '../RootNavigator/types';
 
-export type AppStackParamList = {
-  Home: undefined;
+export type AuthStackParamList = {
+  SplashScreen: undefined;
+  SupportNotAvailable: undefined;
+  LandingScreen: undefined;
 };
 
-export type AppStackScreenProps<T extends keyof AppStackParamList> =
+export type AuthStackScreenProps<T extends keyof AuthStackParamList> =
   CompositeScreenProps<
-    NativeStackScreenProps<AppStackParamList, T>,
+    NativeStackScreenProps<AuthStackParamList, T>,
     RootStackScreenProps<keyof RootNavigatorParams>
   >;

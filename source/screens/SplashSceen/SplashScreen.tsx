@@ -24,7 +24,7 @@ const SplashScreen = ({ navigation }: SplashScreenProps) => {
         navigation.navigate('SupportNotAvailable');
         return;
       }
-      navigation.navigate('Home');
+      navigation.navigate('LandingScreen');
     }, 800);
   }, [isIOS, navigation]);
 
