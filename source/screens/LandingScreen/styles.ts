@@ -9,13 +9,11 @@ const styles = StyleSheet.create({
   },
   AnimationWrapper: {
     width: '100%',
-    marginBottom: 40,
     alignItems: 'center',
   },
   ImageProps: {
-    width: 180,
-    height: 200,
-    overflow: 'hidden',
+    width: 250,
+    height: 250,
   },
   TextWrapper: {
     alignItems: 'center',
