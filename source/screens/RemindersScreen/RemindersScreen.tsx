@@ -13,11 +13,7 @@ const RemindersScreen = ({ navigation }: RemindersScreenProps) => {
     <ScreenWrapper>
       <View style={styles.ParentWrapper}>
         <Text style={styles.TitleTextStyle}>Reminders</Text>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('AuthStack', { screen: 'SplashScreen' })
-          }
-        >
+        <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')}>
           <Image source={ProfileIcon} />
         </TouchableOpacity>
       </View>
@@ -28,9 +24,6 @@ const RemindersScreen = ({ navigation }: RemindersScreenProps) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ChildWrapper}
       >
-        <ReminderCard reminder={reminders[0]} />
-        <ReminderCard reminder={reminders[1]} />
-        <ReminderCard reminder={reminders[2]} />
         <ReminderCard reminder={reminders[0]} />
         <ReminderCard reminder={reminders[1]} />
         <ReminderCard reminder={reminders[2]} />
