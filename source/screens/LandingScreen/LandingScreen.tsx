@@ -18,7 +18,7 @@ const LandingScreen = ({ navigation }: LandingScreenProps) => {
   const [password, setPassword] = useState('');
 
   const onPressSignIn = () => {
-    navigation.navigate('AppStack', { screen: 'Home' });
+    navigation.navigate('AppStack', { screen: 'RemindersScreen' });
   };
 
   return (

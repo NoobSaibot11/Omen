@@ -6,7 +6,7 @@ import {
 } from '../RootNavigator/types';
 
 export type AppStackParamList = {
-  Home: undefined;
+  RemindersScreen: undefined;
 };
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> =

@@ -1,3 +1,3 @@
 import { AppStackScreenProps } from '../../navigation/AppNavigator/types';
 
-export type HomeProps = AppStackScreenProps<'Home'>;
+export type RemindersScreenProps = AppStackScreenProps<'RemindersScreen'>;
