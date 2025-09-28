@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "build:android": "cd android && gradlew clean && cd .. && npx react-native run-android",
+    "connect-device": "adb reverse tcp:8081 tcp:8081",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
