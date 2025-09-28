@@ -1,6 +1,6 @@
 export const getTime = (hour: number, minute: number) => {
   const { hrs: currentHrs, ampm } = getHours(hour);
-  const currentMinutes = minute;
+  const currentMinutes = getMinutes(minute);
 
   return `${currentHrs}:${currentMinutes} ${ampm}`;
 };
@@ -17,6 +17,12 @@ const getHours = (hour: number): { hrs: number; ampm: 'AM' | 'PM' } => {
   if (hour > 12) return { hrs: hour - 12, ampm: 'PM' };
 
   return { hrs: hour, ampm: 'AM' };
+};
+
+const getMinutes = (minute: number) => {
+  if (minute > 9) return minute;
+
+  return `0${minute}`;
 };
 
 const getDay = (day: number) => {

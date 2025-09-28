@@ -7,90 +7,62 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useGetTime } from './hooks/useGetTime';
 import { ProfilePageProps } from './types';
 
+import ProfileIcon from '../../assets/icons/profile_icon.png';
+import SettingsIcon from '../../assets/icons/settings.png';
+import AboutUsIcon from '../../assets/icons/about.png';
+import styles from './styles';
+
 const ProfilePage = ({ navigation }: ProfilePageProps) => {
   const { time, date } = useGetTime();
+
+  const onExitPress = () =>
+    navigation.navigate('AuthStack', { screen: 'LandingScreen' });
+
+  const onUsernameCardPress = () => {};
+  const onSettingsCardPress = () => {};
+  const onAboutUsCardPress = () => navigation.navigate('AboutScreen');
+
   return (
     <ScreenWrapper>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingBottom: 20,
-        }}
-      >
-        <Text style={{ color: '#504065', fontSize: 32, fontWeight: 600 }}>
-          Profile
-        </Text>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('AuthStack', { screen: 'LandingScreen' })
-          }
-        >
-          <Image source={ExitIcon} style={{ height: 33, width: 33 }} />
+      <View style={styles.ParentWrapper}>
+        <Text style={styles.TitleTextStyle}>Profile</Text>
+        <TouchableOpacity onPress={onExitPress}>
+          <Image source={ExitIcon} style={styles.ExitIconStyle} />
         </TouchableOpacity>
       </View>
 
-      <View style={{ alignItems: 'center' }}>
-        <Image
-          source={Profile}
-          style={{
-            height: 220,
-            width: 220,
-          }}
-        />
-        <Text style={{ color: '#504065', fontSize: 32, fontWeight: 600 }}>
-          Scorpion
-        </Text>
+      <View style={styles.ChildWrapper}>
+        <Image source={Profile} style={styles.ProfileImageStyle} />
+        <Text style={styles.NameTextStyle}>Scorpion</Text>
 
-        <Text style={{ color: 'white', fontSize: 48, paddingTop: 15 }}>
-          {time}
-        </Text>
-        <Text style={{ color: 'white', fontSize: 20 }}>{date}</Text>
+        <Text style={styles.TimeTextStyle}>{time}</Text>
+        <Text style={styles.DateTextStyle}>{date}</Text>
       </View>
 
-      <View
-        style={{
-          paddingTop: 40,
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: '#020103ff',
-            justifyContent: 'center',
-            borderTopLeftRadius: 25,
-            borderTopRightRadius: 25,
-            alignItems: 'center',
-            height: 75,
-          }}
+      <View style={styles.CardWrapper}>
+        <TouchableOpacity
+          style={styles.UsernameCardStyle}
+          onPress={onUsernameCardPress}
         >
-          <Text style={{ color: 'white' }}>Username</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: '#020103ff',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 75,
-            borderColor: '#1E1E1E',
-            borderTopWidth: 2,
-            borderBottomWidth: 2,
-          }}
+          <Image source={ProfileIcon} style={styles.UserNameImageStyle} />
+          <Text style={styles.UserNameTextStyle}>Username</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.SettingCardStyle}
+          onPress={onSettingsCardPress}
         >
-          <Text style={{ color: 'white' }}>Settings</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: '#020103ff',
-            justifyContent: 'center',
-            borderBottomLeftRadius: 25,
-            borderBottomRightRadius: 25,
-            alignItems: 'center',
-            height: 75,
-          }}
+          <Image source={SettingsIcon} style={styles.SettingImageStyle} />
+          <Text style={styles.SettingTextStyle}>Settings</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.AboutUsCardStyle}
+          onPress={onAboutUsCardPress}
         >
-          <Text style={{ color: 'white' }}>About us</Text>
-        </View>
+          <Image source={AboutUsIcon} style={styles.AboutUsImageStyle} />
+          <Text style={styles.AboutUsTextStyle}>About us</Text>
+        </TouchableOpacity>
       </View>
     </ScreenWrapper>
   );

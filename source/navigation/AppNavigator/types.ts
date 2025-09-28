@@ -8,6 +8,7 @@ import {
 export type AppStackParamList = {
   RemindersScreen: undefined;
   ProfilePage: undefined;
+  AboutScreen: undefined;
 };
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> =

@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { AppStackParamList } from './types';
-import { ProfilePage, RemindersScreen } from '../../screens';
+import { AboutScreen, ProfilePage, RemindersScreen } from '../../screens';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
@@ -16,6 +16,7 @@ const AppStack = () => {
     >
       <Stack.Screen name="RemindersScreen" component={RemindersScreen} />
       <Stack.Screen name="ProfilePage" component={ProfilePage} />
+      <Stack.Screen name="AboutScreen" component={AboutScreen} />
     </Stack.Navigator>
   );
 };
