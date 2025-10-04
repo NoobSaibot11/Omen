@@ -5,3 +5,4 @@ export * from './RemindersScreen';
 export * from './ProfilePage';
 export * from './AboutScreen';
 export * from './AddReminderScreen';
+export * from './UpdateReminderScreen';

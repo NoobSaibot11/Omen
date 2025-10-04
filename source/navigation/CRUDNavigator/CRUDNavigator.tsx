@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { AddReminderScreen } from '../../screens';
+import { AddReminderScreen, UpdateReminderScreen } from '../../screens';
 import { CRUDStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<CRUDStackParamList>();
@@ -15,6 +15,10 @@ const CRUDStack = () => {
       }}
     >
       <Stack.Screen name="AddReminderScreen" component={AddReminderScreen} />
+      <Stack.Screen
+        name="UpdateReminderScreen"
+        component={UpdateReminderScreen}
+      />
     </Stack.Navigator>
   );
 };

@@ -4,9 +4,11 @@ import {
   RootNavigatorParams,
   RootStackScreenProps,
 } from '../RootNavigator/types';
+import { Reminder } from '../../contexts/ReminderContext/types';
 
 export type CRUDStackParamList = {
   AddReminderScreen: undefined;
+  UpdateReminderScreen: { selectedReminder: Reminder };
 };
 
 export type CRUDStackScreenProps<T extends keyof CRUDStackParamList> =

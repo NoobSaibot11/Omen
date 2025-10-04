@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScreenWrapper } from '../../components';
+import { UpdateReminderScreenProps } from './types';
 import {
   Image,
   ImageSourcePropType,
@@ -9,33 +9,45 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { AddReminderScreenProps } from './types';
-import { useReminderForm } from './hooks/useReminderForm';
-import IconSelector from './components/IconSelector';
+import { ScreenWrapper } from '../../components';
+import BackArrow from '../../assets/back_arrow.png';
+import useGetUpdateReminderForm from './hooks/useGetUpdateReminderForm';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { getMonth } from '../ProfilePage/hooks/utils';
+import IconSelector from '../AddReminderScreen/components/IconSelector';
+import { useReminderContext } from '../../contexts/ReminderContext';
 import styles from './styles';
-import BackArrow from '../../assets/back_arrow.png';
 
-const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
+const UpdateReminderScreen = ({
+  navigation,
+  route,
+}: UpdateReminderScreenProps) => {
   const [showIconSelector, setShowIconSelector] = useState<boolean>(false);
   const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const form = useReminderForm();
+
+  const { selectedReminder } = route.params;
+  const form = useGetUpdateReminderForm(selectedReminder);
+  const { dispatch } = useReminderContext();
 
   const onIconSelection = (icon: ImageSourcePropType) =>
     form.setFieldValue('icon', icon);
 
   const onSave = () => {
     form.handleSubmit();
-    navigation.navigate('AppStack', { screen: 'RemindersScreen' });
+    navigation.goBack();
+  };
+
+  const onDelete = () => {
+    dispatch({ type: 'DELETE_REMINDER', payload: selectedReminder.id });
+    navigation.goBack();
   };
 
   const onBackPress = () => navigation.goBack();
 
   return (
     <ScreenWrapper>
-      <ScrollView style={styles.ParentWrapper}>
+      <ScrollView>
         <TouchableOpacity
           style={styles.BackButtonWrapper}
           onPress={onBackPress}
@@ -43,8 +55,8 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
           <Image source={BackArrow} style={styles.BackButtonStyle} />
         </TouchableOpacity>
 
-        <View style={styles.TitleWrapper}>
-          <Text style={styles.TitleTextStyle}>Add reminder</Text>
+        <View style={styles.ScreenTitleWrapper}>
+          <Text style={styles.ScreenTitleStyle}>Update reminder</Text>
         </View>
 
         <form.Field name="title">
@@ -53,7 +65,7 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
               <TextInput
                 placeholder="Enter Reminder . . ."
                 placeholderTextColor="#4f4f4f"
-                style={styles.TitleInput}
+                style={styles.TitleFieldTextStyle}
                 value={field.state.value}
                 onChangeText={field.handleChange}
               />
@@ -65,7 +77,7 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
           {field => (
             <View style={styles.IconFieldWrapper}>
               <TouchableOpacity
-                style={styles.IconWrapper}
+                style={styles.IconFieldInnerWrapper}
                 onPress={() => setShowIconSelector(true)}
               >
                 <Image source={field.state.value} style={styles.IconStyle} />
@@ -83,7 +95,7 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
                 onPress={() => setShowTimePicker(true)}
               >
                 {field.state.value === '' ? (
-                  <Text style={styles.DateTimePlaceHolderText}>
+                  <Text style={styles.DateTimeFiedlPlaceholdeStyle}>
                     Select time
                   </Text>
                 ) : (
@@ -121,7 +133,7 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
                 onPress={() => setShowDatePicker(true)}
               >
                 {field.state.value === '' ? (
-                  <Text style={styles.DateTimePlaceHolderText}>
+                  <Text style={styles.DateTimeFiedlPlaceholdeStyle}>
                     Select date
                   </Text>
                 ) : (
@@ -157,8 +169,12 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
           }}
         </form.Field>
 
-        <TouchableOpacity style={styles.FooterButtonWrapper} onPress={onSave}>
-          <Text style={styles.FooterButtonTextStyle}>Save</Text>
+        <TouchableOpacity style={styles.SaveButtonWrapper} onPress={onSave}>
+          <Text style={styles.SaveTextStyle}>Save</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.DeleteButtonWrapper} onPress={onDelete}>
+          <Text style={styles.DeleteTextStyle}>Delete</Text>
         </TouchableOpacity>
       </ScrollView>
 
@@ -171,4 +187,4 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
   );
 };
 
-export default AddReminderScreen;
+export default UpdateReminderScreen;
