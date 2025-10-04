@@ -2,12 +2,13 @@ import React from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { AddReminderCard, ReminderCard, ScreenWrapper } from '../../components';
 import ProfileIcon from '../../assets/icons/profile_pic.png';
-import useGetReminders from './hooks/useGetReminders';
 import styles from './styles';
 import { RemindersScreenProps } from './types';
+import { useReminderContext } from '../../contexts/ReminderContext';
 
 const RemindersScreen = ({ navigation }: RemindersScreenProps) => {
-  const reminders = useGetReminders();
+  const { state } = useReminderContext();
+  const { reminders } = state;
 
   return (
     <ScreenWrapper>
@@ -24,9 +25,9 @@ const RemindersScreen = ({ navigation }: RemindersScreenProps) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ChildWrapper}
       >
-        <ReminderCard reminder={reminders[0]} />
-        <ReminderCard reminder={reminders[1]} />
-        <ReminderCard reminder={reminders[2]} />
+        {reminders.map(reminder => (
+          <ReminderCard key={reminder.id} reminder={reminder} />
+        ))}
       </ScrollView>
     </ScreenWrapper>
   );

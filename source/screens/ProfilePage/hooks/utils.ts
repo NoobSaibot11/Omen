@@ -41,7 +41,7 @@ const getDay = (day: number) => {
   return days[day];
 };
 
-const getMonth = (month: number) => {
+export const getMonth = (month: number) => {
   const months = [
     'Jan',
     'Feb',

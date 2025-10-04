@@ -1,4 +1,4 @@
-import { Reminder } from '../../screens/RemindersScreen/hooks/types';
+import { Reminder } from '../../contexts/ReminderContext/types';
 
 export type ReminderCardProps = {
   reminder: Reminder;
