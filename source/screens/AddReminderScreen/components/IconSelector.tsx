@@ -25,7 +25,7 @@ const IconSelector = ({
       <View style={styles.ParentWrapper}>
         <View style={styles.ChildWrapper}>
           {Icons.map((icon, id) => (
-            <TouchableOpacity onPress={() => onIconSelection(icon)}>
+            <TouchableOpacity onPress={() => onIconSelection(icon)} key={id}>
               <Image source={icon} style={styles.ImageStyle} key={id} />
             </TouchableOpacity>
           ))}
