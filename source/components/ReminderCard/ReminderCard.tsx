@@ -13,7 +13,9 @@ const ReminderCard = ({ reminder }: ReminderCardProps) => {
           <Text style={styles.TitleStyle}>{reminder.title}</Text>
 
           <View style={styles.TimeWrapper}>
-            <Text style={styles.TimeStyle}>{reminder.time}</Text>
+            <Text
+              style={styles.TimeStyle}
+            >{`${reminder.date}, ${reminder.time}`}</Text>
           </View>
         </View>
       </View>

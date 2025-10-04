@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootNavigatorParams } from './types';
 import AuthStack from '../AuthNavigator/AuthStack';
 import AppStack from '../AppNavigator/AppNavigator';
+import CRUDStack from '../CRUDNavigator/CRUDNavigator';
 
 const Stack = createNativeStackNavigator<RootNavigatorParams>();
 
@@ -17,6 +18,7 @@ const RootNavigator = () => {
     >
       <Stack.Screen name="AuthStack" component={AuthStack} />
       <Stack.Screen name="AppStack" component={AppStack} />
+      <Stack.Screen name="CRUDStack" component={CRUDStack} />
     </Stack.Navigator>
   );
 };
