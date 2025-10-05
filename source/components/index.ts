@@ -3,3 +3,5 @@ export * from './StatusBar';
 export * from './ScreenWrapper';
 export * from './ReminderCard';
 export * from './AddReminderCard';
+export * from './BottomSheet';
+export * from './IconSelector';
