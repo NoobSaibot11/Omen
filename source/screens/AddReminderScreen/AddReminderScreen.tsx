@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScreenWrapper } from '../../components';
+import { BottomSheet, IconSelector, ScreenWrapper } from '../../components';
 import {
   Image,
   ImageSourcePropType,
@@ -11,22 +11,47 @@ import {
 } from 'react-native';
 import { AddReminderScreenProps } from './types';
 import { useReminderForm } from './hooks/useReminderForm';
-import IconSelector from './components/IconSelector';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { getMonth } from '../ProfilePage/hooks/utils';
 import styles from './styles';
 import BackArrow from '../../assets/back_arrow.png';
+import CheckBox from '@react-native-community/checkbox';
+import PlaceHolderIcon from '../../assets/icons/placeholder.png';
 
 const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
   const [showIconSelector, setShowIconSelector] = useState<boolean>(false);
   const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [isDaily, setIsDaily] = useState<boolean>(false);
+  const [showSheet, setShowSheet] = useState<boolean>(false);
+  const [sheetMessage, setSheetMessage] = useState<string>('');
+  const [sheetTitle, setSheetTitle] = useState<string>('');
   const form = useReminderForm();
 
   const onIconSelection = (icon: ImageSourcePropType) =>
     form.setFieldValue('icon', icon);
 
   const onSave = () => {
+    const values = form.state.values;
+    const { title, date, time, icon } = values;
+    let missingFields = '';
+
+    if (title === '') missingFields += 'title ';
+    if (icon === PlaceHolderIcon) missingFields += 'icon ';
+    if (time === '') missingFields += 'time ';
+    if (date === '') missingFields += 'date ';
+
+    if (missingFields !== '') {
+      const finalMessage = `Please fill in the missing fields: ${missingFields
+        .replaceAll(' ', ', ')
+        .slice(0, -2)}`;
+
+      setSheetTitle('Form missing fields');
+      setSheetMessage(finalMessage);
+      setShowSheet(true);
+      return;
+    }
+
     form.handleSubmit();
     navigation.navigate('AppStack', { screen: 'RemindersScreen' });
   };
@@ -116,43 +141,58 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
         <form.Field name="date">
           {field => {
             return (
-              <TouchableOpacity
-                style={[styles.DateTimeFieldWrapper, styles.DateFieldWrapper]}
-                onPress={() => setShowDatePicker(true)}
-              >
-                {field.state.value === '' ? (
-                  <Text style={styles.DateTimePlaceHolderText}>
-                    Select date
-                  </Text>
-                ) : (
-                  <Text style={styles.DateTimeTextStyle}>
-                    {field.state.value}
-                  </Text>
-                )}
+              <>
+                <TouchableOpacity
+                  style={[styles.DateTimeFieldWrapper, styles.DateFieldWrapper]}
+                  onPress={() => setShowDatePicker(true)}
+                >
+                  {field.state.value === '' ? (
+                    <Text style={styles.DateTimePlaceHolderText}>
+                      Select date
+                    </Text>
+                  ) : (
+                    <Text style={styles.DateTimeTextStyle}>
+                      {field.state.value}
+                    </Text>
+                  )}
 
-                <DateTimePicker
-                  isVisible={showDatePicker}
-                  mode="date"
-                  onConfirm={t => {
-                    const date = Number(
-                      t.toLocaleDateString('en-US', {
-                        day: '2-digit',
-                      }),
-                    );
-                    const month = getMonth(
-                      Number(
+                  <DateTimePicker
+                    isVisible={showDatePicker}
+                    mode="date"
+                    onConfirm={t => {
+                      const date = Number(
                         t.toLocaleDateString('en-US', {
-                          month: '2-digit',
+                          day: '2-digit',
                         }),
-                      ) - 1,
-                    );
-                    const selectedDate = `${month} ${date}`;
-                    field.handleChange(selectedDate);
-                    setShowDatePicker(false);
-                  }}
-                  onCancel={() => setShowDatePicker(false)}
-                />
-              </TouchableOpacity>
+                      );
+                      const month = getMonth(
+                        Number(
+                          t.toLocaleDateString('en-US', {
+                            month: '2-digit',
+                          }),
+                        ) - 1,
+                      );
+                      const selectedDate = `${month} ${date}`;
+                      field.handleChange(selectedDate);
+                      setShowDatePicker(false);
+                      setIsDaily(false);
+                    }}
+                    onCancel={() => setShowDatePicker(false)}
+                  />
+                </TouchableOpacity>
+
+                <View style={styles.CheckBoxStyle}>
+                  <CheckBox
+                    value={isDaily}
+                    onValueChange={() => {
+                      field.handleChange(!isDaily ? 'Daily' : '');
+                      setIsDaily(!isDaily);
+                    }}
+                    tintColors={{ true: '#9087D5', false: '#aaa' }}
+                  />
+                  <Text style={styles.DailyTextStyle}>Daily</Text>
+                </View>
+              </>
             );
           }}
         </form.Field>
@@ -166,6 +206,13 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
         showIconSelector={showIconSelector}
         hideIconSelector={() => setShowIconSelector(false)}
         onIconPress={onIconSelection}
+      />
+
+      <BottomSheet
+        isVisible={showSheet}
+        message={sheetMessage}
+        title={sheetTitle}
+        closeSheet={() => setShowSheet(false)}
       />
     </ScreenWrapper>
   );

@@ -1,5 +1,4 @@
 import React from 'react';
-import { IconSelectorProps } from './types';
 import {
   Image,
   ImageSourcePropType,
@@ -9,6 +8,7 @@ import {
 } from 'react-native';
 import { Icons } from './constants';
 import styles from './styles';
+import { IconSelectorProps } from './types';
 
 const IconSelector = ({
   showIconSelector,
