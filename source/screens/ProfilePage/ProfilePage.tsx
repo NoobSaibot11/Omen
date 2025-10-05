@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import ExitIcon from '../../assets/icons/exit.png';
 import Profile from '../../assets/icons/profile.png';
-import { ScreenWrapper } from '../../components';
+import { BottomSheet, ScreenWrapper } from '../../components';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useGetTime } from './hooks/useGetTime';
 import { ProfilePageProps } from './types';
@@ -14,12 +14,15 @@ import styles from './styles';
 
 const ProfilePage = ({ navigation }: ProfilePageProps) => {
   const { time, date } = useGetTime();
+  const [showSheet, setShowSheet] = useState<boolean>(false);
 
   const onExitPress = () =>
     navigation.navigate('AuthStack', { screen: 'LandingScreen' });
 
-  const onUsernameCardPress = () => {};
-  const onSettingsCardPress = () => {};
+  const openSupportSheet = () => setShowSheet(true);
+
+  const onUsernameCardPress = () => openSupportSheet();
+  const onSettingsCardPress = () => openSupportSheet();
   const onAboutUsCardPress = () => navigation.navigate('AboutScreen');
 
   return (
@@ -64,6 +67,13 @@ const ProfilePage = ({ navigation }: ProfilePageProps) => {
           <Text style={styles.AboutUsTextStyle}>About us</Text>
         </TouchableOpacity>
       </View>
+
+      <BottomSheet
+        isVisible={showSheet}
+        closeSheet={() => setShowSheet(false)}
+        message="This feature is not available yet."
+        title="Support not available"
+      />
     </ScreenWrapper>
   );
 };
