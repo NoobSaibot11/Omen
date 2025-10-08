@@ -11,14 +11,25 @@ import ProfileIcon from '../../assets/icons/profile_icon.png';
 import SettingsIcon from '../../assets/icons/settings.png';
 import AboutUsIcon from '../../assets/icons/about.png';
 import styles from './styles';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackScreenProps } from '../../navigation/RootNavigator/types';
 
 const ProfilePage = ({ navigation }: ProfilePageProps) => {
   const { time, date } = useGetTime();
   const [showSheet, setShowSheet] = useState<boolean>(false);
+  const { state, logout } = useAuthContext();
+  const { username } = state;
+  const appNavigator =
+    useNavigation<RootStackScreenProps<'AuthStack'>['navigation']>();
 
-  const onExitPress = () =>
-    navigation.navigate('AuthStack', { screen: 'LandingScreen' });
-
+  const onExitPress = async () => {
+    await logout();
+    appNavigator.reset({
+      index: 0,
+      routes: [{ name: 'AuthStack', params: { screen: 'LandingScreen' } }],
+    });
+  };
   const openSupportSheet = () => setShowSheet(true);
 
   const onUsernameCardPress = () => openSupportSheet();
@@ -36,7 +47,7 @@ const ProfilePage = ({ navigation }: ProfilePageProps) => {
 
       <View style={styles.ChildWrapper}>
         <Image source={Profile} style={styles.ProfileImageStyle} />
-        <Text style={styles.NameTextStyle}>Scorpion</Text>
+        <Text style={styles.NameTextStyle}>{username}</Text>
 
         <Text style={styles.TimeTextStyle}>{time}</Text>
         <Text style={styles.DateTextStyle}>{date}</Text>

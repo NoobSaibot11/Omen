@@ -9,24 +9,42 @@ import SplashAnimation from '../../assets/splash_2.png';
 import updateStatusBarTheme from '../../hooks/updateStatusBarTheme';
 import styles from './styles';
 import { SplashScreenProps } from './types';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackScreenProps } from '../../navigation/RootNavigator/types';
 
 const SplashScreen = ({ navigation }: SplashScreenProps) => {
   updateStatusBarTheme('dark');
   const { bottom } = useSafeAreaInsets();
+  const { state } = useAuthContext();
+  const { token, isLoading } = state;
+  const appNavigator =
+    useNavigation<RootStackScreenProps<'AuthStack'>['navigation']>();
+
   const isIOS = Platform.OS === 'ios';
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
   const onAnimationEnd = useCallback(() => {
+    if (isLoading) return;
+
     setTimeout(() => {
       if (isIOS) {
         navigation.navigate('SupportNotAvailable');
         return;
       }
-      navigation.navigate('LandingScreen');
+      if (token) {
+        appNavigator.reset({
+          index: 0,
+          routes: [{ name: 'AppStack', params: { screen: 'RemindersScreen' } }],
+        });
+        return;
+      }
+
+      navigation.reset({ index: 0, routes: [{ name: 'LandingScreen' }] });
     }, 800);
-  }, [isIOS, navigation]);
+  }, [isLoading, isIOS, token, navigation, appNavigator]);
 
   useEffect(() => {
     setTimeout(() => {

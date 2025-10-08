@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
     borderWidth: 1,
     borderColor: '#2A1376',
+    borderRadius: 10,
   },
   InputWrapper2: {
     marginTop: 25,

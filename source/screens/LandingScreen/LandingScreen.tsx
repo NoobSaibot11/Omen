@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { BaseScreen } from '../../components';
+import { BaseScreen, BottomSheet } from '../../components';
 import LinearGradient from 'react-native-linear-gradient';
 import { LandingScreenProps } from './types';
 
@@ -14,42 +14,34 @@ import styles from './styles';
 import OmenAnimation from './components/OmenAnimation';
 import { useReminderContext } from '../../contexts/ReminderContext';
 
-import HairOilIcon from '../../assets/icons/massage.png';
 import NoMobileIcon from '../../assets/icons/no_mobile.png';
-import SleepIcon from '../../assets/icons/sleep.png';
 import { Reminder } from '../../contexts/ReminderContext/types';
+import { useAuthContext } from '../../contexts/AuthContext';
 
-const tmpReminders: Reminder[] = [
-  {
-    title: 'Apply hair oil and do massage',
-    date: 'Daily',
-    time: '10:15 PM',
-    icon: HairOilIcon,
-    id: 1,
-  },
-  {
-    title: 'Do not use mobile after 11.30 PM',
-    date: 'Jan 2',
-    time: '11:30 PM',
-    icon: NoMobileIcon,
-    id: 2,
-  },
-  {
-    title: 'Go to sleep',
-    date: 'Sep 15',
-    time: '12:00 AM',
-    icon: SleepIcon,
-    id: 3,
-  },
-];
+const tmpReminders: Reminder = {
+  title: 'Do not use mobile after 11.30 PM',
+  date: 'Jan 2',
+  time: '11:30 PM',
+  icon: NoMobileIcon,
+  id: 2,
+};
 
 const LandingScreen = ({ navigation }: LandingScreenProps) => {
+  const [showErrorSheet, setShowErrorSheet] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { dispatch } = useReminderContext();
+  const { addReminder } = useReminderContext();
+  const { login } = useAuthContext();
 
-  const onPressSignIn = () => {
-    dispatch({ type: 'FETCH_REMIDNERS', payload: tmpReminders });
+  const onPressSignIn = async () => {
+    if (!username || !password) {
+      setShowErrorSheet(true);
+      return;
+    }
+
+    addReminder(tmpReminders);
+    await login('dummy-token', username);
+
     navigation.navigate('AppStack', { screen: 'RemindersScreen' });
   };
 
@@ -117,6 +109,12 @@ const LandingScreen = ({ navigation }: LandingScreenProps) => {
           </TouchableOpacity>
         </ScrollView>
       </LinearGradient>
+      <BottomSheet
+        isVisible={showErrorSheet}
+        closeSheet={() => setShowErrorSheet(false)}
+        title="Missing credentils"
+        message="Missing Username or Password"
+      />
     </BaseScreen>
   );
 };

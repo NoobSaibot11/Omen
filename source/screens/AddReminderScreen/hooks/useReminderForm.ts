@@ -12,7 +12,7 @@ const defaultValues: ReminderFormType = {
 };
 
 export const useReminderForm = () => {
-  const { dispatch } = useReminderContext();
+  const { addReminder } = useReminderContext();
 
   const onSubmit = (value: ReminderFormType) => {
     const id = new Date().getTime();
@@ -24,7 +24,7 @@ export const useReminderForm = () => {
       icon: value.icon,
     };
 
-    dispatch({ type: 'ADD_REMINDER', payload: newReminder });
+    addReminder(newReminder);
   };
 
   const form = useForm({

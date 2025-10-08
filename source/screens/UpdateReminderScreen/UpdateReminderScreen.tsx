@@ -35,7 +35,7 @@ const UpdateReminderScreen = ({
     form.getFieldValue('date') === 'Daily',
   );
 
-  const { dispatch } = useReminderContext();
+  const { deleteReminder } = useReminderContext();
 
   const onIconSelection = (icon: ImageSourcePropType) =>
     form.setFieldValue('icon', icon);
@@ -64,7 +64,7 @@ const UpdateReminderScreen = ({
   };
 
   const onDelete = () => {
-    dispatch({ type: 'DELETE_REMINDER', payload: selectedReminder.id });
+    deleteReminder(selectedReminder.id);
     navigation.goBack();
   };
 
