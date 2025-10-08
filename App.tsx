@@ -1,21 +1,18 @@
 import { StyleSheet, View } from 'react-native';
-import AppStack from './source/navigation/RootNavigator/RootNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from './source/components';
-import { ReminderProvider } from './source/contexts/ReminderContext';
+import { RootNavigator } from './source/navigation/RootNavigator';
 
 function App() {
   return (
     <NavigationContainer>
-      <ReminderProvider>
-        <SafeAreaProvider>
-          <View style={styles.container}>
-            <StatusBar />
-            <AppStack />
-          </View>
-        </SafeAreaProvider>
-      </ReminderProvider>
+      <SafeAreaProvider>
+        <View style={styles.container}>
+          <StatusBar />
+          <RootNavigator />
+        </View>
+      </SafeAreaProvider>
     </NavigationContainer>
   );
 }

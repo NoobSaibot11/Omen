@@ -4,7 +4,7 @@ import { Reminder } from '../../../contexts/ReminderContext/types';
 import { ReminderFormType } from '../../AddReminderScreen/hooks/types';
 
 const useGetUpdateReminderForm = (currentReminder: Reminder) => {
-  const { dispatch } = useReminderContext();
+  const { updateReminder } = useReminderContext();
 
   const onSubmit = (value: ReminderFormType) => {
     const newReminder: Reminder = {
@@ -15,7 +15,7 @@ const useGetUpdateReminderForm = (currentReminder: Reminder) => {
       icon: value.icon,
     };
 
-    dispatch({ type: 'UPDATE_REMINDER', payload: newReminder });
+    updateReminder(newReminder);
   };
 
   const form = useForm({

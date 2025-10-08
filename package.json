@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "build:android": "cd android && gradlew clean && cd .. && npx react-native run-android",
+    "build": "cd android && gradlew clean && cd .. && npx react-native run-android",
     "connect-device": "adb reverse tcp:8081 tcp:8081",
     "ios": "react-native run-ios",
     "lint": "eslint .",
@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-community/checkbox": "^0.5.20",
     "@react-native-community/datetimepicker": "^8.4.5",
     "@react-native/new-app-screen": "0.80.0",

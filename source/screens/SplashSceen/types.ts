@@ -1,7 +1,3 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../navigation/AuthNavigator/types';
+import { AuthStackScreenProps } from '../../navigation/AuthNavigator/types';
 
-export type SplashScreenProps = NativeStackScreenProps<
-  AuthStackParamList,
-  'SplashScreen'
->;
+export type SplashScreenProps = AuthStackScreenProps<'SplashScreen'>;
