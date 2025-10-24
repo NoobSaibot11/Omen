@@ -12,25 +12,12 @@ import { LandingScreenProps } from './types';
 
 import styles from './styles';
 import OmenAnimation from './components/OmenAnimation';
-import { useReminderContext } from '../../contexts/ReminderContext';
-
-import NoMobileIcon from '../../assets/icons/no_mobile.png';
-import { Reminder } from '../../contexts/ReminderContext/types';
 import { useAuthContext } from '../../contexts/AuthContext';
-
-const tmpReminders: Reminder = {
-  title: 'Do not use mobile after 11.30 PM',
-  date: 'Jan 2',
-  time: '11:30 PM',
-  icon: NoMobileIcon,
-  id: 2,
-};
 
 const LandingScreen = ({ navigation }: LandingScreenProps) => {
   const [showErrorSheet, setShowErrorSheet] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { addReminder } = useReminderContext();
   const { login } = useAuthContext();
 
   const onPressSignIn = async () => {
@@ -39,7 +26,6 @@ const LandingScreen = ({ navigation }: LandingScreenProps) => {
       return;
     }
 
-    addReminder(tmpReminders);
     await login('dummy-token', username);
 
     navigation.navigate('AppStack', { screen: 'RemindersScreen' });

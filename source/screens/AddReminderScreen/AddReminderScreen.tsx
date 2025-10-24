@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BottomSheet, IconSelector, ScreenWrapper } from '../../components';
 import {
   Image,
-  ImageSourcePropType,
   ScrollView,
   Text,
   TextInput,
@@ -16,7 +15,7 @@ import { getMonth } from '../ProfilePage/hooks/utils';
 import styles from './styles';
 import BackArrow from '../../assets/back_arrow.png';
 import CheckBox from '@react-native-community/checkbox';
-import PlaceHolderIcon from '../../assets/icons/placeholder.png';
+import { IconMap, iconNames } from '../../utils/IconMap';
 
 const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
   const [showIconSelector, setShowIconSelector] = useState<boolean>(false);
@@ -28,8 +27,7 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
   const [sheetTitle, setSheetTitle] = useState<string>('');
   const form = useReminderForm();
 
-  const onIconSelection = (icon: ImageSourcePropType) =>
-    form.setFieldValue('icon', icon);
+  const onIconSelection = (icon: iconNames) => form.setFieldValue('icon', icon);
 
   const onSave = () => {
     const values = form.state.values;
@@ -37,7 +35,7 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
     let missingFields = '';
 
     if (title === '') missingFields += 'title ';
-    if (icon === PlaceHolderIcon) missingFields += 'icon ';
+    if (icon === iconNames.placeholder) missingFields += 'icon ';
     if (time === '') missingFields += 'time ';
     if (date === '') missingFields += 'date ';
 
@@ -93,7 +91,10 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
                 style={styles.IconWrapper}
                 onPress={() => setShowIconSelector(true)}
               >
-                <Image source={field.state.value} style={styles.IconStyle} />
+                <Image
+                  source={IconMap(field.state.value)}
+                  style={styles.IconStyle}
+                />
                 <Text style={styles.SubTextStyle}>Icon</Text>
               </TouchableOpacity>
             </View>

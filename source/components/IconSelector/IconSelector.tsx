@@ -6,16 +6,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Icons } from './constants';
+
 import styles from './styles';
 import { IconSelectorProps } from './types';
+import { iconNames, Icons } from '../../utils/IconMap';
 
 const IconSelector = ({
   showIconSelector,
   hideIconSelector,
   onIconPress,
 }: IconSelectorProps) => {
-  const onIconSelection = (icon: ImageSourcePropType) => {
+  const onIconSelection = (icon: iconNames) => {
     onIconPress(icon);
     hideIconSelector();
   };
@@ -24,11 +25,23 @@ const IconSelector = ({
     return (
       <View style={styles.ParentWrapper}>
         <View style={styles.ChildWrapper}>
-          {Icons.map((icon, id) => (
-            <TouchableOpacity onPress={() => onIconSelection(icon)} key={id}>
-              <Image source={icon} style={styles.ImageStyle} key={id} />
-            </TouchableOpacity>
-          ))}
+          {(
+            Object.entries(Icons) as unknown as [
+              iconNames,
+              ImageSourcePropType,
+            ][]
+          ).map((icon, id) => {
+            if (String(icon[0]) === String(iconNames.placeholder)) return null;
+
+            return (
+              <TouchableOpacity
+                onPress={() => onIconSelection(icon[0])}
+                key={id}
+              >
+                <Image source={icon[1]} style={styles.ImageStyle} key={id} />
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         <TouchableOpacity onPress={hideIconSelector}>

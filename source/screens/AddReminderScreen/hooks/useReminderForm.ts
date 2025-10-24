@@ -1,12 +1,12 @@
 import { useForm } from '@tanstack/react-form';
-import PlaceholderIcon from '../../../assets/icons/placeholder.png';
 import { useReminderContext } from '../../../contexts/ReminderContext';
 import { ReminderFormType } from './types';
 import { Reminder } from '../../../contexts/ReminderContext/types';
+import { iconNames } from '../../../utils/IconMap';
 
 const defaultValues: ReminderFormType = {
   title: '',
-  icon: PlaceholderIcon,
+  icon: iconNames.placeholder,
   time: '',
   date: '',
 };
