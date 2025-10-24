@@ -1,9 +1,9 @@
-import { ImageSourcePropType } from 'react-native';
+import { iconNames } from '../../utils/IconMap';
 
 export type Reminder = {
   title: string;
   date: string | 'daily';
   time: string;
-  icon: ImageSourcePropType;
+  icon: iconNames;
   id: number;
 };

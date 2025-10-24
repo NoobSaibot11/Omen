@@ -1,7 +1,7 @@
-import { ImageSourcePropType } from 'react-native';
+import { iconNames } from '../../utils/IconMap';
 
 export type IconSelectorProps = {
   showIconSelector: boolean;
   hideIconSelector: () => void;
-  onIconPress: (icon: ImageSourcePropType) => void;
+  onIconPress: (icon: iconNames) => void;
 };

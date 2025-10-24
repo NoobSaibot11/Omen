@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { UpdateReminderScreenProps } from './types';
 import {
   Image,
-  ImageSourcePropType,
   ScrollView,
   Text,
   TextInput,
@@ -17,6 +16,7 @@ import { getMonth } from '../ProfilePage/hooks/utils';
 import { useReminderContext } from '../../contexts/ReminderContext';
 import styles from './styles';
 import CheckBox from '@react-native-community/checkbox';
+import { IconMap, iconNames } from '../../utils/IconMap';
 
 const UpdateReminderScreen = ({
   navigation,
@@ -37,8 +37,7 @@ const UpdateReminderScreen = ({
 
   const { deleteReminder } = useReminderContext();
 
-  const onIconSelection = (icon: ImageSourcePropType) =>
-    form.setFieldValue('icon', icon);
+  const onIconSelection = (icon: iconNames) => form.setFieldValue('icon', icon);
 
   const onSave = () => {
     const values = form.state.values;
@@ -105,7 +104,10 @@ const UpdateReminderScreen = ({
                 style={styles.IconFieldInnerWrapper}
                 onPress={() => setShowIconSelector(true)}
               >
-                <Image source={field.state.value} style={styles.IconStyle} />
+                <Image
+                  source={IconMap(field.state.value)}
+                  style={styles.IconStyle}
+                />
                 <Text style={styles.SubTextStyle}>Icon</Text>
               </TouchableOpacity>
             </View>

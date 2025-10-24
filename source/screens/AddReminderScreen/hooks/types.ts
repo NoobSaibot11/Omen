@@ -1,8 +1,8 @@
-import { ImageSourcePropType } from 'react-native';
+import { iconNames } from '../../../utils/IconMap';
 
 export type ReminderFormType = {
   title: string;
-  icon: ImageSourcePropType;
+  icon: iconNames;
   time: string;
   date: string;
 };
