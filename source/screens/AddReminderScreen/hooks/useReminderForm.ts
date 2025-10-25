@@ -9,6 +9,7 @@ const defaultValues: ReminderFormType = {
   icon: iconNames.placeholder,
   time: '',
   date: '',
+  year: '',
 };
 
 export const useReminderForm = () => {
@@ -22,6 +23,7 @@ export const useReminderForm = () => {
       date: value.date,
       time: value.time,
       icon: value.icon,
+      year: value.year,
     };
 
     addReminder(newReminder);

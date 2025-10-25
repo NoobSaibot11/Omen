@@ -13,6 +13,7 @@ const useGetUpdateReminderForm = (currentReminder: Reminder) => {
       date: value.date,
       time: value.time,
       icon: value.icon,
+      year: value.year,
     };
 
     updateReminder(newReminder);
