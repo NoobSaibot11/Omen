@@ -5,4 +5,5 @@ export type ReminderFormType = {
   icon: iconNames;
   time: string;
   date: string;
+  year: string;
 };

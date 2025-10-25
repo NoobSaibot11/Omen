@@ -11,7 +11,7 @@ import {
 import { AddReminderScreenProps } from './types';
 import { useReminderForm } from './hooks/useReminderForm';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { getMonth } from '../ProfilePage/hooks/utils';
+import { getMonth, getMonthIndex } from '../ProfilePage/hooks/utils';
 import styles from './styles';
 import BackArrow from '../../assets/back_arrow.png';
 import CheckBox from '@react-native-community/checkbox';
@@ -31,7 +31,7 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
 
   const onSave = () => {
     const values = form.state.values;
-    const { title, date, time, icon } = values;
+    const { title, date, time, year, icon } = values;
     let missingFields = '';
 
     if (title === '') missingFields += 'title ';
@@ -48,6 +48,105 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
       setSheetMessage(finalMessage);
       setShowSheet(true);
       return;
+    }
+
+    if (date !== 'Daily') {
+      const currentTime = new Date();
+
+      // Check whether the selected year has already passed
+      if (year < String(currentTime.getFullYear())) {
+        setSheetTitle('Invalid Date');
+        setSheetMessage('The year selected has already passed.');
+        setShowSheet(true);
+        return;
+      }
+
+      // Check whether the selected month and date have already passed
+      const [monthStr, dayStr] = date.split(' ');
+      if (getMonthIndex(monthStr) < currentTime.getMonth()) {
+        setSheetTitle('Invalid Date');
+        setSheetMessage('The month selected has already passed.');
+        setShowSheet(true);
+        return;
+      } else if (Number(dayStr) < currentTime.getDate()) {
+        setSheetTitle('Invalid Date');
+        setSheetMessage('The date selected has already passed.');
+        setShowSheet(true);
+        return;
+      }
+
+      const [selectedTime, extra] = time.replace(/\s+/g, ' ').split(' ');
+      const [selectedHoursStr, selectedMinutesStr] = selectedTime.split(':');
+      const currentHours = currentTime.getHours();
+      const currentMinutes = currentTime.getMinutes();
+
+      // Check whether the selected time has already passed for today specifically
+      if (
+        year === String(currentTime.getFullYear()) &&
+        getMonthIndex(monthStr) === currentTime.getMonth() &&
+        Number(dayStr) === currentTime.getDate()
+      ) {
+        // If current time is in PM
+        if (currentHours > 12) {
+          console.log('>>> Extra', extra);
+          // Selecting AM will always be invalid
+          if (extra === 'AM') {
+            setSheetTitle('Invalid Time');
+            setSheetMessage('The time selected has already passed.');
+            setShowSheet(true);
+            return;
+          }
+
+          // Selecting PM, need to check hours and minutes are passed
+          const selectedHours = Number(selectedHoursStr) + 12;
+          if (
+            selectedHours < currentHours ||
+            (selectedHours === currentHours &&
+              Number(selectedMinutesStr) < currentMinutes)
+          ) {
+            setSheetTitle('Invalid Time');
+            setSheetMessage('The time selected has already passed.');
+            setShowSheet(true);
+            return;
+          }
+        }
+        // If current time is in 12 AM/PM
+        else if (Number(selectedHoursStr) === 12) {
+          // Selecting 12 AM is always invalid
+          if (extra === 'AM') {
+            setSheetTitle('Invalid Time');
+            setSheetMessage('The time selected has already passed.');
+            setShowSheet(true);
+            return;
+          }
+
+          // After 12 PM, can not set reminder for 12 PM
+          if (currentHours >= 12) {
+            setSheetTitle('Invalid Time');
+            setSheetMessage('The time selected has already passed.');
+            setShowSheet(true);
+            return;
+          }
+        }
+        // If current time is in AM
+        else {
+          // Selecting PM is always valid
+          // Selecting AM, need to check hours and minutes are passed
+          if (extra !== 'PM') {
+            const selectedHours = Number(selectedHoursStr);
+            if (
+              selectedHours < currentHours ||
+              (selectedHours === currentHours &&
+                Number(selectedMinutesStr) < currentMinutes)
+            ) {
+              setSheetTitle('Invalid Time');
+              setSheetMessage('The time selected has already passed.');
+              setShowSheet(true);
+              return;
+            }
+          }
+        }
+      }
     }
 
     form.handleSubmit();
@@ -173,8 +272,13 @@ const AddReminderScreen = ({ navigation }: AddReminderScreenProps) => {
                           }),
                         ) - 1,
                       );
+                      const year = t.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                      });
+
                       const selectedDate = `${month} ${date}`;
                       field.handleChange(selectedDate);
+                      form.setFieldValue('year', year);
                       setShowDatePicker(false);
                       setIsDaily(false);
                     }}
