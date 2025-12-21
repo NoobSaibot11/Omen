@@ -3,8 +3,12 @@ import notificationService from '../../services/NotificationService/Notification
 import { NotificationContextType } from './types';
 
 // Create the context
-export const NotificationContext =
-  createContext<NotificationContextType | null>(null);
+export const NotificationContext = createContext<NotificationContextType>({
+  scheduleReminder: () => Promise.resolve(),
+  cancelReminder: () => Promise.resolve(),
+  updateReminder: () => Promise.resolve(),
+  createDefaultChannel: () => Promise.resolve(),
+});
 
 // Provider component
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
